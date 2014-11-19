@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <link rel="shortcut icon" type="img/png" href="img/1416089427_fish-24.png"/>
+        <title>Sistema de Pesca</title>
+    </h:head>
+
+    <h:body>
+        <h:form>
+            <p:dialog widgetVar="formCad" header="Formulário de Embarcação" resizable="false" draggable="false" modal="true" >
+                <h:form id="formCadEmbarcacao">
+                    <h2>Cadastro de Embarcação</h2>
+                    <h:panelGrid columns="2" cellpadding="3" >
+                        <p:outputLabel value="Nome:" />
+                        <p:inputText value="#{embarcacaoService.embarcacao.nome}"/>
+                        <p:outputLabel value="Capacidade:" />
+                        <p:inputText value="#{embarcacaoService.embarcacao.capacidade}"/>
+                        <p:outputLabel value="Tamanho:" />
+                        <p:inputText value="#{embarcacaoService.embarcacao.size}"/>
+                        
+                    </h:panelGrid>
+                </h:form>
+            </p:dialog>
+
+            <h:form id="listaEmbarcacao">
+                <h2>Lista de Embarcações Cadastrados</h2>
+                <div>
+                    <p:commandButton type="button" value="Novo" style="font-size: medium" onclick="PF('formCad').show();"/>
+                    <div style="float: right">
+                        <p:inputText /><p:commandButton value="Buscar"/>
+                    </div>
+                </div>
+                <br/>
+                <p:dataTable id="tableEmbarcacoes" var="a" value="#{embarcacaoService.embarcacoes}" style="font-size: small" >
+                    <p:column headerText="Código">
+                        <h:outputText value="#{a.id}" />
+                    </p:column>
+
+                    <p:column headerText="Nome">
+                        <h:outputText value="#{a.nome}" />
+                    </p:column>
+
+                    <p:column headerText="Capacidade">
+                        <h:outputText value="#{a.capacidade}" />
+                    </p:column>
+
+                    <p:column headerText="Tamanho">
+                        <h:outputText value="#{a.size}" />
+                    </p:column>
+                    
+                    <p:column headerText="Opções">
+                        <h:outputText value="#" />
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </h:form>
+
+    </h:body>
+
+</html>

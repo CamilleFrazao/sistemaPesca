@@ -1,0 +1,74 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Controle de Pesca</title>
+    </h:head>
+    <h:body>
+        <h:form id="formPrincipal">
+            <p:dialog widgetVar="formCad" header="Formulário de Cadstro" resizable="false" draggable="false" modal="true" >
+                <h:form id="formDialog">
+                    <h2>Cadastro de Apontador</h2>
+                    <h:panelGrid columns="2" cellpadding="3" >
+                        <p:outputLabel value="Nome:" />
+                        <p:inputText value="#{apontadorService.apontador.pessoa.nome}"/>
+                        <p:outputLabel value="Data de Nascimento:" />
+                        <p:inputMask mask="99/99/9999" value="#{apontadorService.apontador.pessoa.dataNascimento}">
+                            <f:convertDateTime pattern="dd/MM/yyyy" />
+                        </p:inputMask>
+                        <p:outputLabel value="Telefone" />
+                        <p:inputMask mask="(99)99999-9999" value="#{apontadorService.apontador.pessoa.telefone}" />
+                        <p:commandButton value="Cadastrar" action="#{apontadorService.salvarApontador}" update=":formPrincipal:tableApontadores" onsuccess="PF('formCad').hide();"/>
+                    </h:panelGrid>
+                </h:form>
+            </p:dialog>
+
+            <h2>Lista de Apontadores cadastrados</h2>
+            <div>
+                <p:commandButton type="button" value="Novo" style="font-size: medium" onclick="PF('formCad').show();"/>
+                <div style="float: right">
+                    <p:inputText value="#{apontadorService.nome}" /><p:commandButton value="Buscar" action="#{apontadorService.buscarApontadores()}"/>
+                </div>
+            </div>
+            <br/>
+            <p:dataTable id="tableApontadores" var="a" value="#{apontadorService.apontadores}" style="font-size: small" >
+                <p:column headerText="Código">
+                    <h:outputText value="#{a.id}" />
+                </p:column>
+
+                <p:column headerText="Nome">
+                    <h:outputText value="#{a.pessoa.nome}" />
+                </p:column>
+
+                <p:column headerText="Nascimento">
+                    <h:outputText value="#{a.pessoa.dataNascimento}" >
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+
+                <p:column headerText="Telefone">
+                    <h:outputText value="#{a.pessoa.telefone}" />
+                </p:column>
+
+                <p:column headerText="Data de Cadastro">
+                    <h:outputText value="#{a.pessoa.dataCadastro}" >
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                    </h:outputText>
+                </p:column>
+                <p:column headerText="Opções">
+                    <p:commandLink value="Editar" />
+                    ||
+                    <p:commandLink value="Deletar" action="#{apontadorService.deletar}" update="tableApontadores" >
+                        <f:setPropertyActionListener target="#{apontadorService.apontador}" value="#{a}" />
+                    </p:commandLink>
+                </p:column>
+            </p:dataTable>
+
+        </h:form>
+
+    </h:body>
+</html>
+
